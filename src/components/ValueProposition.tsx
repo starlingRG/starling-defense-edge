@@ -28,9 +28,9 @@ export const ValueProposition = () => {
               key={index}
               className="value-card text-center group"
             >
-              <div className="value-icon mx-auto">
+              <div className="value-icon mx-auto group-hover:animate-pulse">
                 <prop.icon 
-                  className="w-8 h-8 text-silver" 
+                  className="w-8 h-8 text-silver transition-colors duration-300 group-hover:text-crimson" 
                   strokeWidth={1.5}
                 />
               </div>
