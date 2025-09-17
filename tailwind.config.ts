@@ -57,6 +57,19 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Defense Tech Theme Colors
+        navy: {
+          deep: "hsl(var(--navy-deep))",
+          light: "hsl(var(--navy-light))",
+        },
+        silver: {
+          DEFAULT: "hsl(var(--silver))",
+          dark: "hsl(var(--silver-dark))",
+        },
+        crimson: {
+          DEFAULT: "hsl(var(--crimson))",
+          light: "hsl(var(--crimson-light))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
