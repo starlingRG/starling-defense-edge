@@ -47,10 +47,10 @@ export const ContactForm = () => {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Let's Start Planning Your Defense Edge
+            Let's Start Planning Your Edge
           </h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Ready to discuss your strategic defense technology needs?
+            Ready to discuss how we can accelerate your business?
           </p>
           <a 
             href="mailto:info@starlingresearchgroup.com"
