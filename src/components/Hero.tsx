@@ -1,6 +1,4 @@
 import { ParticleBackground } from './ParticleBackground';
-import { AerospaceScene } from './AerospaceScene';
-import { GeometricElements } from './GeometricElements';
 import heroBackground from '@/assets/hero-background.jpg';
 
 interface HeroProps {
@@ -18,12 +16,6 @@ export const Hero = ({ onContactClick }: HeroProps) => {
           opacity: 0.4
         }}
       />
-      
-      {/* 3D Aerospace Scene */}
-      <AerospaceScene />
-      
-      {/* Geometric Elements */}
-      <GeometricElements />
       
       {/* Particle Animation Overlay */}
       <ParticleBackground />
