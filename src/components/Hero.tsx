@@ -27,7 +27,7 @@ export const Hero = ({ onContactClick }: HeroProps) => {
         </h1>
         
         <p className="hero-subtitle mb-12">
-          Strategic Defense Tech Consulting – Innovating Security for Tomorrow's Threats
+          Accelerating technology adoption
         </p>
         
         <button 

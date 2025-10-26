@@ -30,8 +30,7 @@ export const AboutSections = () => {
             Who We Have Helped
           </h2>
           <p className="text-xl text-muted-foreground leading-relaxed mb-16">
-            We have advised a startup in Y Combinator raising an initial seed round, 
-            an established Prime, and everywhere in between.
+            We have advised startups in Y Combinator raising an initial seed round, established Primes, and companies at all stages in between.
           </p>
           
           <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16">
