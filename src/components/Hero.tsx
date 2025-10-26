@@ -34,7 +34,7 @@ export const Hero = ({ onContactClick }: HeroProps) => {
           onClick={onContactClick}
           className="cta-primary hover:scale-105 transition-transform duration-300"
         >
-          Start Planning
+          Connect Today
         </button>
       </div>
       
