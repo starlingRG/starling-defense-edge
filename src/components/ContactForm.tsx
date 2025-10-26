@@ -9,7 +9,6 @@ export const ContactForm = () => {
     name: '',
     email: '',
     company: '',
-    interest: 'General Inquiry',
     message: ''
   });
 
@@ -30,7 +29,6 @@ export const ContactForm = () => {
       name: '',
       email: '',
       company: '',
-      interest: 'General Inquiry',
       message: ''
     });
 
@@ -112,24 +110,6 @@ export const ContactForm = () => {
                 className="form-input"
                 placeholder="Your organization"
               />
-            </div>
-
-            <div>
-              <label htmlFor="interest" className="block text-sm font-medium text-foreground mb-2">
-                Primary Interest
-              </label>
-              <select
-                id="interest"
-                name="interest"
-                value={formData.interest}
-                onChange={handleChange}
-                className="form-input"
-              >
-                <option value="General Inquiry">General Inquiry</option>
-                <option value="Threat Assessment">Threat Assessment</option>
-                <option value="Tech Roadmap">Tech Roadmap</option>
-                <option value="Custom Consulting">Custom Consulting</option>
-              </select>
             </div>
 
             <div>

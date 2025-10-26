@@ -8,8 +8,7 @@ export const AboutSections = () => {
             Who We Are
           </h2>
           <p className="text-xl text-muted-foreground leading-relaxed">
-            Our team has decades of experience in defense operations and acquisitions. 
-            Receive guidance from the people who made the requirements and lived the technical challenges.
+            Weapons School Instructors. Flight Test Engineers. Operational Test Pilots. Technology integrators. Our team has decades of experience in defense operations and acquisitions. Receive guidance from the people who made the requirements and lived the technical challenges.
           </p>
         </div>
 
