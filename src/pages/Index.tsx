@@ -1,6 +1,7 @@
 import { Navigation } from '@/components/Navigation';
 import { Hero } from '@/components/Hero';
 import { ValueProposition } from '@/components/ValueProposition';
+import { AboutSections } from '@/components/AboutSections';
 import { ContactForm } from '@/components/ContactForm';
 import { Footer } from '@/components/Footer';
 
@@ -17,6 +18,7 @@ const Index = () => {
       <Navigation onContactClick={scrollToContact} />
       <Hero onContactClick={scrollToContact} />
       <ValueProposition />
+      <AboutSections />
       <ContactForm />
       <Footer />
     </div>

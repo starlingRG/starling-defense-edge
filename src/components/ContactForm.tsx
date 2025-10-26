@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Send } from 'lucide-react';
+import { Send, Mail } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export const ContactForm = () => {
@@ -51,9 +51,16 @@ export const ContactForm = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             Let's Start Planning Your Defense Edge
           </h2>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-xl text-muted-foreground mb-8">
             Ready to discuss your strategic defense technology needs?
           </p>
+          <a 
+            href="mailto:info@starlingresearchgroup.com"
+            className="inline-flex items-center gap-2 cta-primary hover:scale-105 transition-transform duration-300"
+          >
+            <Mail className="w-5 h-5" />
+            Email Us
+          </a>
         </div>
 
         <div className="contact-form max-w-2xl mx-auto">
