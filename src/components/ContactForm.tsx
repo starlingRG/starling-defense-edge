@@ -16,23 +16,43 @@ export const ContactForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Message Sent",
-      description: "Thanks for reaching out. We'll reply within 24 hours.",
-    });
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      company: '',
-      message: ''
-    });
+      const data = await response.json();
 
-    setIsSubmitting(false);
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send message');
+      }
+
+      toast({
+        title: "Message Sent",
+        description: "Thanks for reaching out. We'll reply within 24 hours.",
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -52,7 +72,7 @@ export const ContactForm = () => {
           <p className="text-xl text-muted-foreground mb-8">
             Ready to discuss how we can accelerate your business?
           </p>
-          <a 
+          <a
             href="mailto:info@starlingresearchgroup.com"
             className="inline-flex items-center gap-2 cta-primary hover:scale-105 transition-transform duration-300"
           >
@@ -79,7 +99,7 @@ export const ContactForm = () => {
                   placeholder="Your full name"
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
                   Email *
