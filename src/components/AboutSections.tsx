@@ -35,9 +35,6 @@ export const AboutSections = () => {
           
           <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16">
             <div className="text-muted-foreground font-semibold text-lg">
-              Perseus Defense
-            </div>
-            <div className="text-muted-foreground font-semibold text-lg">
               EpiSci
             </div>
             <div className="text-muted-foreground font-semibold text-lg">
