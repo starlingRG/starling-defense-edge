@@ -8,6 +8,7 @@ export const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [captchaKey, setCaptchaKey] = useState(0);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -56,6 +57,7 @@ export const ContactForm = () => {
       });
       setCaptchaToken(null);
       setCaptchaKey((k) => k + 1);
+      setIsSubmitted(true);
     } catch (error) {
       console.error('Error submitting form:', error);
       toast({
@@ -97,6 +99,12 @@ export const ContactForm = () => {
         </div>
 
         <div className="contact-form max-w-2xl mx-auto">
+          {isSubmitted ? (
+            <div className="rounded-lg border border-border bg-card text-card-foreground p-8 text-center">
+              <h3 className="text-2xl font-semibold mb-3">Thanks for getting in contact</h3>
+              <p className="text-muted-foreground">We'll respond to you shortly.</p>
+            </div>
+          ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -189,6 +197,7 @@ export const ContactForm = () => {
               )}
             </button>
           </form>
+          )}
         </div>
       </div>
     </section>
