@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Send, Mail } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Turnstile } from '@/components/Turnstile';
 
 export const ContactForm = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaKey, setCaptchaKey] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,6 +17,14 @@ export const ContactForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!captchaToken) {
+      toast({
+        title: 'Verification required',
+        description: 'Please complete the verification challenge.',
+        variant: 'destructive',
+      });
+      return;
+    }
     setIsSubmitting(true);
 
     try {
@@ -22,7 +33,7 @@ export const ContactForm = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, turnstileToken: captchaToken }),
       });
 
       const data = await response.json();
@@ -43,6 +54,8 @@ export const ContactForm = () => {
         company: '',
         message: ''
       });
+      setCaptchaToken(null);
+      setCaptchaKey((k) => k + 1);
     } catch (error) {
       console.error('Error submitting form:', error);
       toast({
@@ -54,6 +67,8 @@ export const ContactForm = () => {
       setIsSubmitting(false);
     }
   };
+
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
@@ -148,9 +163,19 @@ export const ContactForm = () => {
               />
             </div>
 
+            <div>
+              <Turnstile
+                key={captchaKey}
+                siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY as string}
+                onVerify={(token) => setCaptchaToken(token)}
+                onExpire={() => setCaptchaToken(null)}
+                className="flex justify-center"
+              />
+            </div>
+
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !captchaToken}
               className="w-full cta-primary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (

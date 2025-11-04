@@ -2,7 +2,7 @@
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/7b289d96-863b-4114-8b6f-2c78208968fa
+**URL**: <https://lovable.dev/projects/7b289d96-863b-4114-8b6f-2c78208968fa>
 
 ## How can I edit this code?
 
@@ -59,6 +59,30 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+
+## Environment variables
+
+Set the following environment variables:
+
+- `VITE_TURNSTILE_SITE_KEY` – Cloudflare Turnstile Site Key (exposed to client)
+- `TURNSTILE_SECRET_KEY` – Cloudflare Turnstile Secret Key
+- `TURNSTILE_ALLOWED_HOSTNAMES` – Allowed hostnames for the Turnstile API
+- `BREVO_API_KEY` – API key for sending emails
+- `CONTACT_FROM_EMAIL` – Sender email address
+- `CONTACT_FROM_NAME` – Sender name (optional)
+- `CONTACT_RECIPIENT_EMAIL` – Recipient override (optional)
+
+Notes:
+
+- For local development, create a `.env` file at the repo root with:
+
+```dotenv
+VITE_TURNSTILE_SITE_KEY=1x00000000000000000000AA  # Cloudflare test key
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA  # Cloudflare test secret
+TURNSTILE_ALLOWED_HOSTNAMES=localhost,127.0.0.1,starlingresearchgroup.com,*.vercel.app
+```
+
+Add the same keys in your Vercel project for deployed environments.
 
 ## How can I deploy this project?
 

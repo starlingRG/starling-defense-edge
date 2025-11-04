@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
         // Parse the request body
         const body = await request.json();
-        const { name, email, company, message } = body;
+        const { name, email, company, message, turnstileToken } = body;
 
         // Validate required fields
         if (!name || !email || !message) {
@@ -22,6 +22,84 @@ export async function POST(request: Request) {
                 { error: 'Missing required fields: name, email, and message are required' },
                 { status: 400 }
             );
+        }
+
+        // Verify Cloudflare Turnstile
+        const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+        if (!turnstileSecret) {
+            return Response.json(
+                { error: 'Turnstile secret key is not configured' },
+                { status: 500 }
+            );
+        }
+
+        if (!turnstileToken || typeof turnstileToken !== 'string') {
+            return Response.json(
+                { error: 'Verification token missing. Please complete the challenge.' },
+                { status: 400 }
+            );
+        }
+
+        const clientIp =
+            request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+            request.headers.get('x-real-ip') ||
+            undefined;
+
+        const verifyParams = new URLSearchParams();
+        verifyParams.append('secret', turnstileSecret);
+        verifyParams.append('response', turnstileToken);
+        if (clientIp) verifyParams.append('remoteip', clientIp);
+
+        const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+            method: 'POST',
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
+            body: verifyParams.toString()
+        });
+
+        if (!verifyRes.ok) {
+            return Response.json(
+                { error: 'Verification service unavailable' },
+                { status: 502 }
+            );
+        }
+
+        const verifyData = await verifyRes.json();
+        if (!verifyData.success) {
+            return Response.json(
+                { error: 'Verification failed', details: verifyData['error-codes'] },
+                { status: 400 }
+            );
+        }
+
+        // Optional: enforce hostname and origin allowlist
+        const allowedHostnames = (process.env.TURNSTILE_ALLOWED_HOSTNAMES || '')
+            .split(',')
+            .map((h) => h.trim())
+            .filter(Boolean);
+
+        if (allowedHostnames.length > 0) {
+            const verifiedHostname: string | undefined = verifyData.hostname;
+            if (!verifiedHostname || !allowedHostnames.includes(verifiedHostname)) {
+                return Response.json(
+                    { error: 'Verification hostname mismatch' },
+                    { status: 400 }
+                );
+            }
+
+            const origin = request.headers.get('origin');
+            if (origin) {
+                try {
+                    const originHost = new URL(origin).hostname;
+                    if (!allowedHostnames.includes(originHost)) {
+                        return Response.json(
+                            { error: 'Unauthorized origin' },
+                            { status: 403 }
+                        );
+                    }
+                } catch {
+                    // ignore malformed origin header
+                }
+            }
         }
 
         // Initialize Brevo API
