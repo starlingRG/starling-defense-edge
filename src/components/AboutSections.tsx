@@ -29,18 +29,9 @@ export const AboutSections = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-12">
             Who We Have Helped
           </h2>
-          <p className="text-xl text-muted-foreground leading-relaxed mb-16">
+          <p className="text-xl text-muted-foreground leading-relaxed">
             We have advised startups in Y Combinator raising an initial seed round, established Primes, and companies at all stages in between.
           </p>
-          
-          <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16">
-            <div className="text-muted-foreground font-semibold text-lg">
-              EpiSci
-            </div>
-            <div className="text-muted-foreground font-semibold text-lg">
-              AMEWAS
-            </div>
-          </div>
         </div>
       </div>
     </section>
