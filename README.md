@@ -66,7 +66,6 @@ Set the following environment variables:
 
 - `VITE_TURNSTILE_SITE_KEY` – Cloudflare Turnstile Site Key (exposed to client)
 - `TURNSTILE_SECRET_KEY` – Cloudflare Turnstile Secret Key
-- `TURNSTILE_ALLOWED_HOSTNAMES` – Allowed hostnames for the Turnstile API
 - `BREVO_API_KEY` – API key for sending emails
 - `CONTACT_FROM_EMAIL` – Sender email address
 - `CONTACT_FROM_NAME` – Sender name (optional)
@@ -79,7 +78,6 @@ Notes:
 ```dotenv
 VITE_TURNSTILE_SITE_KEY=1x00000000000000000000AA  # Cloudflare test key
 TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA  # Cloudflare test secret
-TURNSTILE_ALLOWED_HOSTNAMES=localhost,127.0.0.1,starlingresearchgroup.com,*.vercel.app
 ```
 
 Add the same keys in your Vercel project for deployed environments.

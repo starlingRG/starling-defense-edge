@@ -71,36 +71,7 @@ export async function POST(request: Request) {
             );
         }
 
-        // Optional: enforce hostname and origin allowlist
-        const allowedHostnames = (process.env.TURNSTILE_ALLOWED_HOSTNAMES || '')
-            .split(',')
-            .map((h) => h.trim())
-            .filter(Boolean);
-
-        if (allowedHostnames.length > 0) {
-            const verifiedHostname: string | undefined = verifyData.hostname;
-            if (!verifiedHostname || !allowedHostnames.includes(verifiedHostname)) {
-                return Response.json(
-                    { error: 'Verification hostname mismatch' },
-                    { status: 400 }
-                );
-            }
-
-            const origin = request.headers.get('origin');
-            if (origin) {
-                try {
-                    const originHost = new URL(origin).hostname;
-                    if (!allowedHostnames.includes(originHost)) {
-                        return Response.json(
-                            { error: 'Unauthorized origin' },
-                            { status: 403 }
-                        );
-                    }
-                } catch {
-                    // ignore malformed origin header
-                }
-            }
-        }
+        // Hostname/origin allowlist intentionally not enforced
 
         // Initialize Brevo API
         const emailAPI = new TransactionalEmailsApi();
