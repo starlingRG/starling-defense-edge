@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 type TurnstileProps = {
   siteKey: string;
@@ -69,31 +69,35 @@ export function Turnstile({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const widgetIdRef = useRef<string | null>(null);
 
-  const renderWidget = useCallback(() => {
-    if (!containerRef.current || !window.turnstile) return;
-    if (widgetIdRef.current) {
-      window.turnstile.remove(widgetIdRef.current);
-      widgetIdRef.current = null;
-    }
-    widgetIdRef.current = window.turnstile.render(containerRef.current, {
-      sitekey: siteKey,
-      theme,
-      size,
-      callback: (token: string) => onVerify(token),
-      'expired-callback': () => onExpire?.(),
-      'error-callback': () => onError?.(),
-    });
-  }, [siteKey, theme, size, onVerify, onExpire, onError]);
+  // Stabilize callbacks across renders to avoid tearing down/recreating the widget
+  const onVerifyRef = useRef(onVerify);
+  const onExpireRef = useRef(onExpire);
+  const onErrorRef = useRef(onError);
+  onVerifyRef.current = onVerify;
+  onExpireRef.current = onExpire;
+  onErrorRef.current = onError;
 
   useEffect(() => {
     let isMounted = true;
     loadTurnstileScript()
       .then(() => {
-        if (!isMounted) return;
-        renderWidget();
+        if (!isMounted || !containerRef.current || !window.turnstile) return;
+        // Recreate the widget only when siteKey/theme/size change
+        if (widgetIdRef.current) {
+          window.turnstile.remove(widgetIdRef.current);
+          widgetIdRef.current = null;
+        }
+        widgetIdRef.current = window.turnstile.render(containerRef.current, {
+          sitekey: siteKey,
+          theme,
+          size,
+          callback: (token: string) => onVerifyRef.current(token),
+          'expired-callback': () => onExpireRef.current?.(),
+          'error-callback': () => onErrorRef.current?.(),
+        });
       })
       .catch(() => {
-        onError?.();
+        onErrorRef.current?.();
       });
     return () => {
       isMounted = false;
@@ -102,7 +106,7 @@ export function Turnstile({
         widgetIdRef.current = null;
       }
     };
-  }, [renderWidget, onError]);
+  }, [siteKey, theme, size]);
 
   return <div ref={containerRef} className={className} />;
 }

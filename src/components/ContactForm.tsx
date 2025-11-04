@@ -169,6 +169,7 @@ export const ContactForm = () => {
                 siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY as string}
                 onVerify={(token) => setCaptchaToken(token)}
                 onExpire={() => setCaptchaToken(null)}
+                theme="dark"
                 className="flex justify-center"
               />
             </div>
